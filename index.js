@@ -11,6 +11,8 @@
 	var img = new Image();
 	img.src = "spooky.png";
 	
+	var spook_cooldown = 4000;
+	var spook_time = 0;
 	
 	var Times = [];
 	var Time = 0;
@@ -215,12 +217,30 @@
 	  if ((Time | 0) > 200){
 		Stop = true;
 	  }
+	  if (spook_cooldown > 0){
+		spook_cooldown -= 1;		
+	  }
+	  if (spook_cooldown == 0){
+		spook_cooldown = -1
+		spook_time = Math.floor(Math.random() * (20 - 10 + 1) + 10);;
+	  }
+	  if (spook_time > 0){
+		spook_time -= 1;		
+	  }
+	  if (spook_time == 0){
+		spook_cooldown = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000);
+		spook_time = -1;
+	  }
 	  MoveCharacter();
 	  draw();    
 	  update();  		  
 	  sceneContext.font = "20px Arial"
 	  sceneContext.fillStyle = "black";
 	  sceneContext.fillText("Temps : " +(Time | 0).toString(), 10, 25)
+	  if(spook_time > 0){
+		rect(sceneContext,0,0,scene.width,scene.height*2,"black", "fill",true);
+		sceneContext.drawImage(img,250,200);
+	  }
 	  if(!Stop){
 		requestAnimationFrame(frame); 
 	  }else{
@@ -234,6 +254,8 @@
 			InterLevel("Abysse",map3);
 		}else{
 		if (map==map3){
+			spook_cooldown = -1;
+			spook_time = 20;
 			InterLevel("Il regarde",map4);
 		}else{
 			End_Screen();	
