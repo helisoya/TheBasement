@@ -232,7 +232,7 @@
 	
 	const frame = function() {  
 	  Time+=0.01;
-	  if ((Time | 0) > 200){
+	  if ((Time | 0) > 300){
 		Stop = true;
 	  }
 	  if (spook_cooldown > 0){
@@ -267,7 +267,7 @@
 	  if(!Stop){
 		requestAnimationFrame(frame); 
 	  }else{
-		if ((Time | 0) > 200){
+		if ((Time | 0) > 300){
 			Dead();
 		}else{
 		if (map==map1){
@@ -374,6 +374,28 @@
 	  if (e.keyCode === 40)  {down=0}
 	}; 	
 	
-	//Start_Screen()
+	function PadDown(e){
+	  e.preventDefault();
+	  e = e.srcElement.id;
+	  if (e === "Left")  {left = 1}
+	  if (e === "Right"){right = 1}     
+	  if (e === "Up"){up=1}
+	  if (e === "Down")  {down=1}
+	}
 	
-
+	function PadUp(e){
+	  e.preventDefault();
+	  e = e.srcElement.id;
+	  if (e === "Left")  {left = 0}
+	  if (e === "Right"){right = 0}     
+	  if (e === "Up"){up=0}
+	  if (e === "Down")  {down=0}
+	}
+	document.getElementById("Left").addEventListener("touchstart", PadDown, false);
+	document.getElementById("Left").addEventListener("touchend", PadUp, false);
+	document.getElementById("Right").addEventListener("touchstart", PadDown, false);
+	document.getElementById("Right").addEventListener("touchend", PadUp, false);
+	document.getElementById("Up").addEventListener("touchstart", PadDown, false);
+	document.getElementById("Up").addEventListener("touchend", PadUp, false);
+	document.getElementById("Down").addEventListener("touchstart", PadDown, false);
+	document.getElementById("Down").addEventListener("touchend", PadUp, false);
