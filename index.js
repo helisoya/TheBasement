@@ -14,6 +14,9 @@
 	var spook_cooldown = 4000;
 	var spook_time = 0;
 	
+	var XStart = 2;
+	var YStart = 2;
+	
 	var Times = [];
 	var Time = 0;
 	var left = 0;
@@ -44,11 +47,23 @@
 	};  
 	
 	function LoadMap(m){
-		camera.x = parseInt(2) * cellSize + cellSize / 2;
-		camera.y = 2 * cellSize + cellSize / 2;
 		map = m;
+		XStart = camera.x;
+		YStart= camera.y;
 	};
 	
+	function resetMapSettings(){
+		camera.x = parseInt(2) * cellSize + cellSize / 2;
+		camera.y = 2 * cellSize + cellSize / 2;	
+		ChangePallette();
+		XStart = camera.x;
+		YStart= camera.y;
+	}
+	
+	function AddScore(){
+		Times.push((Time | 0).toString());
+		Time = 0;	
+	}
 	
 	function AssignRandomHex(item,index){
 		var r = ('0'+(Math.random()*150|0).toString(16)).slice(-2);
@@ -162,9 +177,6 @@
 				camera.y = ny;
 			}else{
 				if (map[(ny/cellSize) | 0][(nx/cellSize) | 0] == 10){
-					ChangePallette();
-					Times.push((Time | 0).toString());
-					Time = 0;
 					Stop=true;
 				}
 			}
@@ -185,7 +197,7 @@
 		sceneContext.fillStyle = "white";
 		sceneContext.drawImage(img,250,300);
 	    sceneContext.fillText("Trop Tard", 250, 200);
-		setTimeout(() => {  Stop = false; LoadMap(map); frame(); Time=0; }, 2000);	
+		setTimeout(() => {  Stop = false; camera.x = XStart; camera.y = YStart; Time=0; frame();  }, 2000);	
 	}
 	
 	function Start_Screen(){
@@ -196,7 +208,7 @@
 		sceneContext.font = "30px Arial";
 		sceneContext.fillText("Trouver la sortie le plus vite possible dans ces 4 niveaux.", 30, 170);
 		sceneContext.fillText("Dépechez...", 300, 220);
-		setTimeout(() => { 	document.body.addEventListener('keydown',OnKeyPress); document.body.addEventListener('keyup',OnKeyRelease);InterLevel("L'entrepot", map1); }, 2000);	
+		setTimeout(() => { 	document.body.addEventListener('keydown',OnKeyPress); document.body.addEventListener('keyup',OnKeyRelease); resetMapSettings(); InterLevel("L'entrepot", map1); }, 2000);	
 	}
 	
 	function End_Screen(){
@@ -209,6 +221,7 @@
 		sceneContext.fillText("Niveau 2 : "+Times[1]+ " s", 290, 190);
 		sceneContext.fillText("Niveau 3 : "+Times[2]+ " s", 290, 230);
 		sceneContext.fillText("Niveau 4 : "+Times[3]+ " s", 290, 270);
+		sceneContext.fillText("Niveau 5 : "+Times[4]+ " s", 290, 310);
 		document.getElementById("buttonStart").hidden = false;
 	}
 	
@@ -239,7 +252,8 @@
 	  sceneContext.fillText("Temps : " +(Time | 0).toString(), 10, 25)
 	  if(spook_time > 0){
 		rect(sceneContext,0,0,scene.width,scene.height*2,"black", "fill",true);
-		sceneContext.drawImage(img,250,200);
+		if ([map5b,map5c,map5d].includes(map)){sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200);}
+		else{ sceneContext.drawImage(img,250,200); };
 	  }
 	  if(!Stop){
 		requestAnimationFrame(frame); 
@@ -248,18 +262,48 @@
 			Dead();
 		}else{
 		if (map==map1){
+			AddScore()
+			resetMapSettings();
 			InterLevel("Une ombre",map2);
 		}else{
 		if (map==map2){
+			AddScore()
+			resetMapSettings();
 			InterLevel("Abysse",map3);
 		}else{
 		if (map==map3){
+			AddScore()
+			resetMapSettings();
 			spook_cooldown = -1;
 			spook_time = 20;
 			InterLevel("Il regarde",map4);
 		}else{
+		if (map==map4){
+			AddScore()
+			resetMapSettings();
+			InterLevel("La sortie",map5a);
+		}else{
+		if (map==map5a){
+			LoadMap(map5b);
+			Stop = false;
+			frame();
+		}else{
+		if (map==map5b){
+			spook_cooldown = -1;
+			spook_time = 20;
+			LoadMap(map5c);
+			Stop = false;
+			frame();
+		}else{
+		if (map==map5c){
+			LoadMap(map5d);
+			Stop = false;
+			frame();
+		}
+		else{
+			AddScore();
 			End_Screen();	
-	  }}}}}
+	  }}}}}}}}}
 	};
 
 	
