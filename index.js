@@ -197,7 +197,7 @@
 		sceneContext.fillStyle = "white";
 		sceneContext.drawImage(img,250,300);
 	    sceneContext.fillText("Trop Tard", 250, 200);
-		setTimeout(() => {  Stop = false; if ([map5a,map5b,map5c,map5d].includes(map) ) {resetMapSettings(); LoadMap(map5a);} else{ if ( [map6a,map6b,map6c,map6d,map6e,map6f,map6g].includes(map) ) {resetMapSettings(); LoadMap(map6a);} else {camera.x = XStart; camera.y = YStart;} }  Time=0; frame();  }, 2000);	
+		setTimeout(() => {  Stop = false; if ([map5a,map5b,map5c,map5d].includes(map) ) {resetMapSettings(); LoadMap(map5a);} else if ( [map6a,map6b,map6c,map6d,map6e,map6f,map6g].includes(map) ) {resetMapSettings(); LoadMap(map6a);} else if ( [map7a,map7b,map7c,map7d].includes(map) ) {resetMapSettings(); LoadMap(map7a);} else {camera.x = XStart; camera.y = YStart;}  Time=0; frame();  }, 2000);	
 	}
 	
 	function DEBUG_DIE(){
@@ -210,7 +210,7 @@
 		sceneContext.fillStyle = "white";
 	    sceneContext.fillText("The Basement", 250, 100);
 		sceneContext.font = "30px Arial";
-		sceneContext.fillText("Trouver la sortie le plus vite possible dans ces 4 niveaux.", 30, 170);
+		sceneContext.fillText("Trouver la sortie le plus vite possible dans ces niveaux.", 30, 170);
 		sceneContext.fillText("Dépechez...", 300, 220);
 		setTimeout(() => { 	document.body.addEventListener('keydown',OnKeyPress); document.body.addEventListener('keyup',OnKeyRelease); resetMapSettings(); InterLevel("L'entrepot", map1); }, 2000);	
 	}
@@ -227,6 +227,7 @@
 		sceneContext.fillText("Niveau 4 : "+Times[3]+ " s", 290, 270);
 		sceneContext.fillText("Niveau 5 : "+Times[4]+ " s", 290, 310);
 		sceneContext.fillText("Niveau 6 : "+Times[5]+ " s", 290, 350);
+		sceneContext.fillText("Niveau 7 : "+Times[6]+ " s", 290, 390);
 		document.getElementById("buttonStart").hidden = false;
 	}
 	
@@ -258,105 +259,124 @@
 	  if(spook_time > 0){
 		rect(sceneContext,0,0,scene.width,scene.height*2,"black", "fill",true);
 		if ([map5b,map5c,map5d].includes(map)){sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200);}
-		else{ 
-		if([map6a,map6b,map6c,map6d].includes(map)) { sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200); sceneContext.drawImage(img,300,100);  }
-		else{ 
-		if([map6e,map6f,map6g,map6h].includes(map)) { sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200); sceneContext.drawImage(img,100,100); sceneContext.drawImage(img,500,100); }
+		else if([map6a,map6b,map6c,map6d].includes(map)) { sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200); sceneContext.drawImage(img,300,100);  }
+		else if([map6e,map6f,map6g,map6h].includes(map)) { sceneContext.drawImage(img,100,200); sceneContext.drawImage(img,500,200); sceneContext.drawImage(img,100,100); sceneContext.drawImage(img,500,100); }
+		else if([map7a,map7b,map7c,map7d].includes(map)) { sceneContext.font = "48px Arial"; sceneContext.fillStyle = "white"; sceneContext.fillText("Derrière toi", 300, 250);}
 		else{sceneContext.drawImage(img,250,200); };
-	  }}}
+	}
 	  if(!Stop){
 		requestAnimationFrame(frame); 
 	  }else{
 		if ((Time | 0) > 300){
 			Dead();
-		}else{
-		if (map==map1){
+		}
+		else if (map==map1){
 			AddScore()
 			resetMapSettings();
 			InterLevel("Une ombre",map2);
-		}else{
-		if (map==map2){
+		}
+		else if (map==map2){
 			AddScore()
 			resetMapSettings();
 			InterLevel("Abysse",map3);
-		}else{
-		if (map==map3){
+		}
+		else if (map==map3){
 			AddScore()
 			resetMapSettings();
 			spook_cooldown = -1;
 			spook_time = 20;
 			InterLevel("Il regarde",map4);
-		}else{
-		if (map==map4){
+		}
+		else if (map==map4){
 			AddScore()
 			resetMapSettings();
 			InterLevel("La sortie",map5a);
-		}else{
-		if (map==map5a){
+		}
+		else if (map==map5a){
 			LoadMap(map5b);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map5b){
+		}
+		else if (map==map5b){
 			spook_cooldown = -1;
 			spook_time = 20;
 			LoadMap(map5c);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map5c){
+		}
+		else if (map==map5c){
 			LoadMap(map5d);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map5d){
+		}
+		else if (map==map5d){
 			AddScore()
 			resetMapSettings();
 			InterLevel("Plus vite",map6a);
-		}else{
-		if (map==map6a){
+		}
+		else if (map==map6a){
 			LoadMap(map6b);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6b){
+		}
+		else if (map==map6b){
 			spook_cooldown = -1;
 			spook_time = 20;
 			LoadMap(map6c);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6c){
+		}
+		else if (map==map6c){
 			LoadMap(map6d);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6d){
+		}
+		else if (map==map6d){
 			LoadMap(map6e);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6e){
+		}
+		else if (map==map6e){
 			spook_cooldown = -1;
 			spook_time = 20;
 			LoadMap(map6f);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6f){
+		}
+		else if (map==map6f){
 			LoadMap(map6g);
 			Stop = false;
 			frame();
-		}else{
-		if (map==map6g){
+		}
+		else if (map==map6g){
 			LoadMap(map6h);
+			Stop = false;
+			frame();
+		}
+		else if (map==map6h){
+			AddScore()
+			resetMapSettings();
+			InterLevel("Il arrive",map7a);
+		}
+		else if (map==map7a){
+			LoadMap(map7b);
+			Stop = false;
+			frame();
+		}
+		else if (map==map7b){
+			LoadMap(map7c);
+			Stop = false;
+			frame();
+		}
+		else if (map==map7c){
+			LoadMap(map7d);
 			Stop = false;
 			frame();
 		}
 		else{
 			AddScore();
 			End_Screen();	
-	  }}}}}}}}}}}}}}}}}
+	  }}
 	};
 
 	
